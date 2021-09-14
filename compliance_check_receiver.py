@@ -29,6 +29,7 @@ import json
 import difflib
 import webex_apis
 import yaml
+import logging
 
 from flask import Flask, request
 from flask_basicauth import BasicAuth
@@ -159,7 +160,15 @@ def index():
 
 @app.route('/compliance_check', methods=['POST'])  # API endpoint to receive the client detail report
 @basic_auth.required
-def client_report():
+def compliance_check():
+
+    # logging, debug level, to file {application_run.log}
+    logging.basicConfig(
+        filename='application_run.log',
+        level=logging.DEBUG,
+        format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S')
+
     if request.method == 'POST':
         print('Webhook Received')
         webhook_json = request.json
