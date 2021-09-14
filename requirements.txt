@@ -8,3 +8,5 @@ dnacentersdk
 pyopenssl
 python-dotenv
 ansible
+PyYAML
+
