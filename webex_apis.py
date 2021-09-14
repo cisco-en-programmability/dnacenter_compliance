@@ -29,6 +29,7 @@ import requests
 import urllib3
 import json
 import os
+import time
 
 from urllib3.exceptions import InsecureRequestWarning  # for insecure https warnings
 from dotenv import load_dotenv
@@ -73,6 +74,7 @@ def post_room_message(room_name, message):
     :return: none
     """
     room_id = get_room_id(room_name)
+    time.sleep(2)
     payload = {'roomId': room_id, 'text': message}
     url = WEBEX_URL + '/messages'
     header = {'content-type': 'application/json', 'authorization': WEBEX_BOT_AUTH}
@@ -89,6 +91,7 @@ def post_room_markdown_message(room_name, message):
     :return: none
     """
     room_id = get_room_id(room_name)
+    time.sleep(2)
     payload = {'roomId': room_id, 'markdown': message}
     url = WEBEX_URL + '/messages'
     header = {'content-type': 'application/json', 'authorization': WEBEX_BOT_AUTH}
@@ -112,24 +115,6 @@ def post_room_url_message(room_name, message, url):
     requests.post(url, data=json.dumps(payload), headers=header, verify=False)
 
 
-def get_bot_message_by_id(message_id, bot_id):
-    """
-    This function will get the message content using the {message_id}
-    :param message_id: Webex Teams message_id
-    :param bot_id: the Bot id to validate message
-    :return: message content
-    """
-    url = WEBEX_URL + '/messages/' + message_id
-    header = {'content-type': 'application/json', 'authorization': WEBEX_BOT_AUTH}
-    response = requests.get(url, headers=header, verify=False)
-    response_json = response.json()
-    all_people = response_json['mentionedPeople']
-    for people in all_people:
-        if people == bot_id:
-            return response_json['text']
-    return None
-
-
 def post_room_card_message(room_name, card_message):
     """
     This function will post a adaptive card message {card_message} to the Webex Teams room with the {room_name}
@@ -137,26 +122,9 @@ def post_room_card_message(room_name, card_message):
     :param card_message: card message
     :return: none
     """
-    room_id = get_room_id(room_name)
     url = WEBEX_URL + '/messages'
     header = {'content-type': 'application/json', 'authorization': WEBEX_BOT_AUTH}
     response = requests.post(url, data=json.dumps(card_message), headers=header, verify=False)
-    return response
-
-
-def upload_file_message(room_name, file_name):
-    """
-    This function will upload a the file with the name {file_name} to the room with the name {room_name}
-    :param room_name: Webex room name
-    :param file_name: file name
-    :return: response
-    """
-    room_id = get_room_id(room_name)
-    url = WEBEX_URL + '/messages'
-    m = MultipartEncoder({'roomId': room_id, 'text': 'Ansible Playbook', 'files': (file_name, open(file_name, 'rb'))})
-    header = {'content-type': 'application/json', 'authorization': WEBEX_BOT_AUTH}
-    response = requests.post(url, data=m, headers=header, verify=False)
-    print(response.status_code, response.text)
     return response
 
 
@@ -174,6 +142,7 @@ def post_room_file(room_name, file_name, file_type, parent_id):
     """
 
     room_id = get_room_id(room_name)
+    time.sleep(2)
     m = MultipartEncoder({'roomId': room_id, 'parentId': parent_id, 'text': 'Ansible Playbook',
                           'files': (file_name, open(file_name, 'rb'), file_type)})
     url = WEBEX_URL + '/messages'

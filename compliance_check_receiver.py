@@ -588,7 +588,7 @@ def compliance_check():
                                 {
                                     "type": "TextBlock",
                                     "wrap": True,
-                                    "text": 'ansible-playbook -i hosts -e "device_name=' + device_hostname + ' dnac_host=' + dnac_ip + '" ' + ansible_file
+                                    "text": 'ansible-playbook -e "device_name=' + device_hostname + ' dnac_host=' + dnac_ip + '" ' + ansible_file
                                 }
                             ]
                         }
