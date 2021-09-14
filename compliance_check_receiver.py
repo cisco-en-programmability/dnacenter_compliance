@@ -168,6 +168,11 @@ def client_report():
         print('Payload: ')
         print(webhook_json, '\n')
 
+        # check if a new open issue, ignore if an resolved issue notification
+        issue_status = webhook_json['details']['Assurance Issue Status']
+        if issue_status == 'resolved':
+            return 'Notification Received', 202
+
         # identify the Cisco DNA Center reporting the issue
         dnac_ip = webhook_json['dnacIP']
         dnac_url = 'https://' + dnac_ip
@@ -310,7 +315,7 @@ def client_report():
                             {
                                 "type": "TextBlock",
                                 "wrap": True,
-                                "text": "Collecting Compliance information"
+                                "text": "Collecting Compliance information, this will take few minutes"
                             }
                         ],
                         "actions": [
@@ -332,7 +337,7 @@ def client_report():
 
         # re-sync device
         resync = dnac_api.devices.sync_devices_using_forcesync(force_sync=True, payload=[device_id])
-        print('Device re-sync started, wait for re-sync to complete')
+        print('\n\nDevice re-sync started, wait for re-sync to complete')
         time_sleep(120)
 
         # check compliance
@@ -491,7 +496,7 @@ def client_report():
                 }
             ]
 
-            with open('PDX-ACCESS_diff.txt') as file:
+            with open(diff_file) as file:
                 line = file.readline()
                 count = 1
                 while line:
