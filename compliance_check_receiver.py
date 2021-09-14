@@ -537,8 +537,8 @@ def compliance_check():
             print('\nConfig Diff Webex message posted')
 
             # prepare CLI templates
-            diff_result_update = diff_result.replace('+', 'no ')
-            diff_result_final = diff_result_update.replace('-', '')
+            diff_result_update = diff_result.replace('\n+', '\nno')
+            diff_result_final = diff_result_update.replace('\n-', '\n')
 
             print('\nRemediation CLI Template:\n', diff_result_final)
 

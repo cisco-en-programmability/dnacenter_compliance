@@ -65,7 +65,7 @@
   #   ansible.builtin.debug:
   #     msg: "{{create_configuration_template_response}}"
 
-  - name: Sleep for 60 seconds and continue with play
+  - name: Sleep for 30 seconds and continue with play
     wait_for:
       timeout: 30
     delegate_to: localhost
@@ -120,7 +120,7 @@
           type: "MANAGED_DEVICE_HOSTNAME"
     register: template_deployment_task
 
-  - name: Sleep for 60 seconds and continue with play
+  - name: Sleep for 30 seconds and continue with play
     wait_for:
       timeout: 30
     delegate_to: localhost
