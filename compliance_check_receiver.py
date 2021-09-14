@@ -509,8 +509,8 @@ def compliance_check():
                 line = file.readline()
                 count = 1
                 while line:
-                    line_update_1 = line.replace("+", "'+'     ")
-                    line_final = line_update_1.replace("-", "'-'     ")
+                    line_update_1 = line.replace("\n+", "\n'+'     ")
+                    line_final = line_update_1.replace("\n-", "\n'-'     ")
                     body.append({'type': 'TextBlock', 'text': line_final, "wrap": True, "color": "attention"})
                     line = file.readline()
                     count += 1
