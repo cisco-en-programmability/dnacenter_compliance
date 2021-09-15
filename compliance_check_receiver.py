@@ -510,9 +510,6 @@ def compliance_check():
             diff_result_update_message = diff_result.replace("\n+", "\n'+'     ")
             diff_result_update_final = diff_result_update_message.replace("\n-", "\n'-'     ")
 
-            diff_result_update_message = diff_result.replace("\n+", "\n'+'     ")
-            diff_result_update_final = diff_result_update_message.replace("\n-", "\n'-'     ")
-
             body.append({'type': 'TextBlock', 'text': diff_result_update_final, "wrap": True, "color": "attention"})
 
             card_message = {
