@@ -342,7 +342,7 @@ def compliance_check():
         response = webex_apis.post_room_card_message(WEBEX_ROOM, card_message)
 
         print('\nDevice Details message posted\nWait for Config Compliance timer')
-        time_sleep(120)
+        time_sleep(180)
 
         # re-sync device
         resync = dnac_api.devices.sync_devices_using_forcesync(force_sync=True, payload=[device_id])
