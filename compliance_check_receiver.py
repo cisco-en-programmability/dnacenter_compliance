@@ -270,7 +270,7 @@ def compliance_check():
         print('\nCisco DNA Center notification message posted')
 
         # collect device detail info
-        device_detail_response = dnac_api.devices.get_device_detail(identifier='uuid',search_by=device_id)
+        device_detail_response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device_id)
         device_detail_json = device_detail_response['response']
         device_sn = device_detail_json['serialNumber']
         device_os_version = device_detail_json['softwareVersion']
@@ -342,12 +342,12 @@ def compliance_check():
         response = webex_apis.post_room_card_message(WEBEX_ROOM, card_message)
 
         print('\nDevice Details message posted\nWait for Config Compliance timer')
-        time_sleep(180)
+        time_sleep(120)
 
         # re-sync device
         resync = dnac_api.devices.sync_devices_using_forcesync(force_sync=True, payload=[device_id])
         print('\n\nDevice re-sync started, wait for re-sync to complete')
-        time_sleep(120)
+        time_sleep(180)
 
         # check compliance
         run_compliance = dnac_api.compliance.run_compliance(deviceUuids=[device_id])
@@ -355,7 +355,7 @@ def compliance_check():
         print('\n\nCompliance Task Id:', compliance_task_id)
 
         # wait for 30 seconds for compliance checks to complete
-        time_sleep(60)
+        time_sleep(30)
 
         # check task by id
         task_info = dnac_api.task.get_task_by_id(task_id=compliance_task_id)
@@ -505,22 +505,15 @@ def compliance_check():
                 }
             ]
 
-            with open(diff_file) as file:
-                line = file.readline()
-                count = 1
-                while line:
-                    line_update = line.replace('\n', '')
-                    first_character = line_update[0]
-                    if first_character == '-':
-                        line_final = "'-'     " + line_update[1:]
-                    else:
-                        if first_character == '+':
-                            line_final = "'+'     " + line_update[1:]
-                        else:
-                            line_final = line
-                    body.append({'type': 'TextBlock', 'text': line_final, "wrap": True, "color": "attention"})
-                    line = file.readline()
-                    count += 1
+            # prepare Webex message with diff
+
+            diff_result_update_message = diff_result.replace("\n+", "\n'+'     ")
+            diff_result_update_final = diff_result_update_message.replace("\n-", "\n'-'     ")
+
+            diff_result_update_message = diff_result.replace("\n+", "\n'+'     ")
+            diff_result_update_final = diff_result_update_message.replace("\n-", "\n'-'     ")
+
+            body.append({'type': 'TextBlock', 'text': diff_result_update_final, "wrap": True, "color": "attention"})
 
             card_message = {
                 "roomId": room_id,
