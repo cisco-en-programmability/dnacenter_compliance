@@ -23,7 +23,6 @@ __license__ = "Cisco Sample Code License, Version 1.1"
 
 import os
 import time
-import requests
 import urllib3
 import json
 import difflib
@@ -31,7 +30,7 @@ import webex_apis
 import yaml
 import logging
 
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from flask_basicauth import BasicAuth
 from requests.auth import HTTPBasicAuth  # for Basic Auth
 from urllib3.exceptions import InsecureRequestWarning  # for insecure https warnings
@@ -158,7 +157,7 @@ def index():
     return '<h1>Flask Receiver App is Up!</h1>', 200
 
 
-@app.route('/compliance_check', methods=['POST'])  # API endpoint to receive the client detail report
+@app.route('/compliance_check', methods=['POST'])  # API endpoint to receive the event notifications
 @basic_auth.required
 def compliance_check():
 
@@ -172,6 +171,10 @@ def compliance_check():
     if request.method == 'POST':
         print('Webhook Received')
         webhook_json = request.json
+
+        # save to a file, create new file if not existing, append to existing file
+        with open('compliance_check_data.log', 'a') as filehandle:
+            filehandle.write('%s\n' % json.dumps(webhook_json))
 
         # print the received notification
         print('Payload: ')
@@ -242,7 +245,7 @@ def compliance_check():
                                     },
                                     {
                                         "title": "Device Management IP:",
-                                        "value":device_management_ip
+                                        "value": device_management_ip
                                     },
                                     {
                                         "title": "Cisco DNA Center IP",
@@ -604,6 +607,16 @@ def compliance_check():
         return 'Method not supported', 405
 
 
+@app.route('/compliance_check_data', methods=['GET'])  # API endpoint to return the compliance check activity data
+@basic_auth.required
+def compliance_check_data():
+    print('File "compliance_check_data.log" requested, transfer started')
+    return send_from_directory('', 'compliance_check_data.log', as_attachment=True)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, ssl_context='adhoc')
+
+
+
 
