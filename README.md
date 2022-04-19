@@ -160,7 +160,6 @@ Payload:
 
 -------
 
- Thank you @jbogarin for contributions to this use case
 
 **License**
 
