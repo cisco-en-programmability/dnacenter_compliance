@@ -1,7 +1,6 @@
 
 # Cisco DNA Center Compliance APIs Use Cases
 
-
 This repo is for an application that will verify the Cisco DNA Center managed devices compliance state.
 
 When events are received, the webhook receiver will execute this workflow :
@@ -34,7 +33,7 @@ This app is to be used only in demo or lab environments, it is not written for p
 Sample Output:
 
 -------
-
+```
 Webhook Received
 Payload:
 {'version': '1.0.0', 'instanceId': '9916e734-c7b6-4203-a6ce-4ea9e9f6001a', 'eventId': 'NETWORK-NON-FABRIC_WIRED-1-251', 'namespace': 'ASSURANCE', 'name': None, 'description': None, 'type': 'NETWORK', 'category': 'ALERT', 'domain': 'Connectivity', 'subDomain': 'Non-Fabric Wired', 'severity': 1, 'source': 'ndp', 'timestamp': 1632779770234, 'details': {'Type': 'Network Device', 'Assurance Issue Details': 'Interface GigabitEthernet2 (Interface description: TO_CSR2_GI2) connecting the following two network devices is down: Local Node: PDX-RO, Peer Node: PDX-RO', 'Assurance Issue Priority': 'P1', 'Device': '10.93.141.23', 'Assurance Issue Name': 'Interface GigabitEthernet2 (Interface description: TO_CSR2_GI2) is Down on Network Device 10.93.141.23', 'Assurance Issue Category': 'Connectivity', 'Assurance Issue Status': 'active'}, 'ciscoDnaEventLink': 'https://10.93.141.45/dna/assurance/issueDetails?issueId=9916e734-c7b6-4203-a6ce-4ea9e9f6001a', 'note': 'To programmatically get more info see here - https://<ip-address>/dna/platform/app/consumer-portal/developer-toolkit/apis?apiId=8684-39bb-4e89-a6e4', 'context': None, 'userId': None, 'i18n': None, 'eventHierarchy': None, 'message': None, 'messageParams': None, 'parentInstanceId': None, 'network': None, 'dnacIP': '10.93.141.45'}
@@ -157,7 +156,7 @@ Payload:
 
 10.93.141.45 - - [27/Sep/2021 15:06:10] "POST /compliance_check HTTP/1.1" 202 -
 
-
+```
 -------
 
 
