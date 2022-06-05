@@ -140,3 +140,4 @@
   - name: Print task information id
     ansible.builtin.debug:
       msg: "Deployment progress is {{task_info.dnac_response.response.progress}}"
+

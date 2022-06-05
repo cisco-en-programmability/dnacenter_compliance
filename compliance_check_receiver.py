@@ -157,7 +157,7 @@ def index():
     return '<h1>Flask Receiver App is Up!</h1>', 200
 
 
-@app.route('/compliance_check', methods=['POST'])  # API endpoint to receive the event notifications
+@app.route('/compliance_check', methods=['POST'])  # API endpoint to receive the compliance event notifications
 @basic_auth.required
 def compliance_check():
 
@@ -508,7 +508,7 @@ def compliance_check():
                 }
             ]
 
-            # prepare Webex message with diff
+            # prepare the Webex message with diff config
 
             diff_result_update_message = diff_result.replace("\n+", "\n'+'     ")
             diff_result_update_final = diff_result_update_message.replace("\n-", "\n'-'     ")
@@ -557,7 +557,7 @@ def compliance_check():
             with open(ansible_file, 'w') as file:
                 yaml.dump(final_data, file, default_flow_style=False)
 
-            # upload the file to Webex
+            # upload the Ansible playbook file to Webex
             card_message = {
                 "roomId": room_id,
                 "parentId": message_id,
@@ -607,7 +607,7 @@ def compliance_check():
         return 'Method not supported', 405
 
 
-@app.route('/compliance_check_data', methods=['GET'])  # API endpoint to return the compliance check activity data
+@app.route('/compliance_check_data', methods=['GET'])  # API endpoint to return the compliance check activity data, consumption by other apps
 @basic_auth.required
 def compliance_check_data():
     print('File "compliance_check_data.log" requested, transfer started')
