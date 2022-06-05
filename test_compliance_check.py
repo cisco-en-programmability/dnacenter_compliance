@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 
-Copyright (c) 2019 Cisco and/or its affiliates.
+Copyright (c) 2022 Cisco and/or its affiliates.
 
 This software is licensed to you under the terms of the Cisco Sample
 Code License, Version 1.1 (the "License"). You may obtain a copy of the
@@ -22,7 +22,7 @@ or implied.
 __author__ = "Gabriel Zapodeanu TME, ENB"
 __email__ = "gzapodea@cisco.com"
 __version__ = "0.1.0"
-__copyright__ = "Copyright (c) 2019 Cisco and/or its affiliates."
+__copyright__ = "Copyright (c) 2021 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
 import requests
@@ -68,7 +68,7 @@ dnac_param = {
         "Type": "Network Device",
         "Assurance Issue Priority": "P2",
         "Assurance Issue Details": "Device name: PDX-RO - BGP peering with neighbor 10.93.141.42 failed due to Autonomous System (AS) Number mismatch. The configured AS number does not match with peer",
-        "Device": "10.93.141.20",
+        "Device": "10.93.141.23",
         "Assurance Issue Name": "Device PDX-ACCESS Received Error Message From Neighbor 10.93.141.42 (Peer in Wrong AS)",
         "Assurance Issue Category": "connectivity",
         "Assurance Issue Status": "active"
@@ -123,18 +123,9 @@ dnac_param_resolved = {
 }
 
 
-url = 'https://127.0.0.1:5000/compliance_check'  # to test the Flask Web App running local
-header = {'content-type': 'application/json'}
-response = requests.post(url, auth=basic_auth, data=json.dumps(dnac_param), headers=header, verify=False)
-response_text = response.text
-print(response_text)
-
-"""
 # test the Webhook with a Cisco DNA Center notification
 
-url = WEBHOOK_URL
+url = 'Add_Your_Webhook_Destination'
 header = {'content-type': 'application/json'}
 response = requests.post(url, auth=basic_auth, data=json.dumps(dnac_param), headers=header, verify=False)
-response_json = response.json()
-#print('\n', response_json)
-"""
+print('\n', response.status_code, response.text)
